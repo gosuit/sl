@@ -74,8 +74,18 @@ func ErrAttr(err error) Attr {
 }
 
 func Default() Logger {
+	cfg := &Config{
+		Level:      "info",
+		AddSource:  false,
+		IsJSON:     false,
+		Writer:     StdOut,
+		SetDefault: true,
+		Type:       DefaultLogger,
+	}
+
 	return &logStruct{
 		log: slog.Default(),
+		cfg: cfg,
 	}
 }
 
