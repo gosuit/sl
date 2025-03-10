@@ -9,6 +9,7 @@ import (
 )
 
 type Logger interface {
+	Config() *Config
 	Handler() Handler
 	With(args ...any) Logger
 	WithGroup(name string) Logger
@@ -68,6 +69,7 @@ func New(cfg *Config) Logger {
 
 	logger := &logStruct{
 		log: slog.New(handler),
+		cfg: cfg,
 	}
 
 	if cfg.SetDefault {
