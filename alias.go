@@ -47,30 +47,30 @@ var (
 	Group      = slog.Group
 )
 
-// L returns *slog.Logger from context
-// if context doesn't have logger, returns slog.Default.
+// L returns Logger from context
+// if context doesn't have logger, returns Default.
 func L(ctx context.Context) Logger {
 	return loggerFromContext(ctx)
 }
 
 func Float32Attr(key string, val float32) Attr {
-	return slog.Float64(key, float64(val))
+	return Float64Attr(key, float64(val))
 }
 
 func UInt32Attr(key string, val uint32) Attr {
-	return slog.Int(key, int(val))
+	return IntAttr(key, int(val))
 }
 
 func Int32Attr(key string, val int32) Attr {
-	return slog.Int(key, int(val))
+	return IntAttr(key, int(val))
 }
 
 func TimeAttr(key string, time time.Time) Attr {
-	return slog.String(key, time.String())
+	return StringAttr(key, time.String())
 }
 
 func ErrAttr(err error) Attr {
-	return slog.String("error", err.Error())
+	return StringAttr("error", err.Error())
 }
 
 func Default() Logger {

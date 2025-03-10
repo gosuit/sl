@@ -37,18 +37,17 @@ type Config struct {
 
 	// AddSource indicates whether to include the source of the log message (e.g., file and line number).
 	// This can be controlled through YAML or an environment variable.
-	AddSource bool ` yaml:"add_source" env:"LOGGER_ADD_SOURCE" env-default:"true"`
+	AddSource bool `yaml:"add_source" env:"LOGGER_ADD_SOURCE" env-default:"true"`
 
 	// IsJSON determines if the log output should be in JSON format.
 	// If true, logs will be structured as JSON; otherwise, they will be plain text.
 	IsJSON bool `yaml:"is_json" env:"LOGGER_IS_JSON" env-default:"true"`
 
 	// Writer specifies where the logs should be written.
-	// It can be a file path or a predefined output like "stdout".
+	// It can be a "file" or a "stdout".
 	Writer string `yaml:"writer" env:"LOGGER_WRITER" env-default:"stderr"`
 
 	// OutPath is the path to the output file if logging to a file.
-	// If left empty, logs will go to the Writer specified.
 	OutPath string `yaml:"out_path" env:"LOGGER_OUT_PATH" env-default:""`
 
 	// SetDefault indicates whether to set default logger options.
@@ -57,13 +56,13 @@ type Config struct {
 
 	// Type defines the type of logger to use.
 	// It can be one of the following:
-	// - "pretty" or "dev": for human-readable logs with color and formatting.
+	// - "dev" or "pretty": for human-readable logs with color and formatting.
 	// - "discard": to ignore all log messages.
 	// - "default": for standard logging behavior.
 	Type string `yaml:"type" env:"LOGGER_TYPE" env-default:"default"`
 }
 
-// New returns the slog.Logger with the specified configuration.
+// New returns the Logger with the specified configuration.
 func New(cfg *Config) Logger {
 	handler := setupHandler(cfg)
 

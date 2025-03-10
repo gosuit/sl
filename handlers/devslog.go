@@ -7,6 +7,7 @@ import (
 	"github.com/golang-cz/devslog"
 )
 
+// NewDevSlog returns devslog slog handler for human-readable logs.
 func NewDevSlog(out io.Writer, opts *slog.HandlerOptions) slog.Handler {
 	devOpts := &devslog.Options{
 		HandlerOptions:    opts,

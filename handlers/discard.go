@@ -7,6 +7,8 @@ import (
 
 type Discard struct{}
 
+// NewDiscard returns discard handler that ignore all call.
+// It can be usefull for tests or other tasks.
 func NewDiscard() *Discard {
 	return &Discard{}
 }

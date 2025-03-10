@@ -16,6 +16,7 @@ type Pretty struct {
 	slog.Handler
 }
 
+// NewPretty returns new Pretty handler for human-readable logs.
 func NewPretty(out io.Writer, opts *slog.HandlerOptions) *Pretty {
 	return &Pretty{
 		Handler: slog.NewJSONHandler(out, opts),
