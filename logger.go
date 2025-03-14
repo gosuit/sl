@@ -8,23 +8,58 @@ import (
 	"github.com/gosuit/sl/handlers"
 )
 
+// Logger is an interface that defines methods for logging at various levels.
+// It provides methods for creating log entries with different contexts and attributes.
 type Logger interface {
+	// Handler returns the handler used for logging.
 	Handler() Handler
+
+	// With creates a new logger instance with additional context arguments.
 	With(args ...any) Logger
+
+	// WithGroup creates a new logger instance that groups log entries under the specified name.
 	WithGroup(name string) Logger
+
+	// Enabled checks if logging is enabled for a specific level in the given context
 	Enabled(ctx context.Context, level Level) bool
+
+	// Log writes a log entry with the specified level, message, and context.
 	Log(ctx context.Context, level Level, msg string, args ...any)
+
+	// LogAttrs writes a log entry with attributes, allowing for more structured logging.
 	LogAttrs(ctx context.Context, level Level, msg string, attrs ...Attr)
+
+	// Debug logs a message at the debug level.
 	Debug(msg string, args ...any)
+
+	// DebugContext logs a message at the debug level with the specified context.
 	DebugContext(ctx context.Context, msg string, args ...any)
+
+	// Info logs a message at the info level.
 	Info(msg string, args ...any)
+
+	// InfoContext logs a message at the info level with the specified context.
 	InfoContext(ctx context.Context, msg string, args ...any)
+
+	// Warn logs a message at the warning level.
 	Warn(msg string, args ...any)
+
+	// WarnContext logs a message at the warning level with the specified context.
 	WarnContext(ctx context.Context, msg string, args ...any)
+
+	// Error logs a message at the error level.
 	Error(msg string, args ...any)
+
+	// ErrorContext logs a message at the error level with the specified context.
 	ErrorContext(ctx context.Context, msg string, args ...any)
+
+	// Fatal logs a message at the error level and terminates the application.
 	Fatal(msg string, args ...any)
+
+	// FatalContext logs a message at the fatal level with the specified context and terminates the application.
 	FatalContext(ctx context.Context, msg string, args ...any)
+
+	// ToSlog returns the underlying slog.Logger instance.
 	ToSlog() *slog.Logger
 }
 

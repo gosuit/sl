@@ -7,21 +7,25 @@ import (
 )
 
 const (
+	// Logging levels
 	LevelInfo  = slog.LevelInfo
 	LevelWarn  = slog.LevelWarn
 	LevelError = slog.LevelError
 	LevelDebug = slog.LevelDebug
 
+	// Logger types
 	PrettyLogger  = "pretty"
 	DevLogger     = "dev"
 	DiscardLogger = "discard"
 	DefaultLogger = "default"
 
+	// Output streams
 	StdOut  = "stdout"
 	FileOut = "file"
 )
 
 type (
+	// Logging attributes
 	Attr           = slog.Attr
 	Level          = slog.Level
 	Handler        = slog.Handler
@@ -31,9 +35,13 @@ type (
 )
 
 var (
+	// Create a text logging handler
 	NewTextHandler = slog.NewTextHandler
+
+	// Create a JSON logging handler
 	NewJSONHandler = slog.NewJSONHandler
 
+	// Predefined attributes for logging
 	StringAttr   = slog.String
 	BoolAttr     = slog.Bool
 	Float64Attr  = slog.Float64
@@ -53,32 +61,39 @@ func L(ctx context.Context) Logger {
 	return loggerFromContext(ctx)
 }
 
+// Float32Attr creates an attribute with a float32 value.
 func Float32Attr(key string, val float32) Attr {
 	return Float64Attr(key, float64(val))
 }
 
+// UInt32Attr creates an attribute for an unsigned integer (uint32).
 func UInt32Attr(key string, val uint32) Attr {
 	return IntAttr(key, int(val))
 }
 
+// Int32Attr creates an attribute for a signed integer (int32).
 func Int32Attr(key string, val int32) Attr {
 	return IntAttr(key, int(val))
 }
 
+// TimeAttr creates an attribute for time.
 func TimeAttr(key string, time time.Time) Attr {
 	return StringAttr(key, time.String())
 }
 
+// ErrAttr creates an attribute for an error.
 func ErrAttr(err error) Attr {
 	return StringAttr("error", err.Error())
 }
 
+// Default returns logger that setted as default.
 func Default() Logger {
 	return &logStruct{
 		log: slog.Default(),
 	}
 }
 
+// SetDefault sets the given logger as the default logger.
 func SetDefault(log Logger) {
 	slog.SetDefault(log.ToSlog())
 }
