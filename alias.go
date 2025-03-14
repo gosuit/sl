@@ -20,7 +20,7 @@ const (
 	DefaultLogger = "default"
 
 	// Output streams
-	StdOut  = "stdout"
+	StdErr  = "stderr"
 	FileOut = "file"
 )
 
