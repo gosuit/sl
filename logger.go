@@ -61,6 +61,9 @@ type Logger interface {
 
 	// ToSlog returns the underlying slog.Logger instance.
 	ToSlog() *slog.Logger
+
+	// Config returns config of current logger.
+	Config() *Config
 }
 
 // Config holds the configuration settings for the logger.
@@ -103,6 +106,7 @@ func New(cfg *Config) Logger {
 
 	logger := &logStruct{
 		log: slog.New(handler),
+		cfg: cfg,
 	}
 
 	if cfg.SetDefault {

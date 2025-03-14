@@ -3,6 +3,7 @@ package sl
 import (
 	"context"
 	"log/slog"
+	"sync"
 	"time"
 )
 
@@ -88,12 +89,34 @@ func ErrAttr(err error) Attr {
 
 // Default returns logger that setted as default.
 func Default() Logger {
+	mu.Lock()
+	cfg := *defaultCfg
+	mu.Unlock()
+
 	return &logStruct{
 		log: slog.Default(),
+		cfg: &cfg,
 	}
 }
 
 // SetDefault sets the given logger as the default logger.
 func SetDefault(log Logger) {
 	slog.SetDefault(log.ToSlog())
+
+	mu.Lock()
+	cfg := *log.Config()
+	defaultCfg = &cfg
+	mu.Unlock()
 }
+
+var (
+	mu         sync.Mutex
+	defaultCfg = &Config{
+		Level:      "info",
+		AddSource:  false,
+		IsJSON:     false,
+		Writer:     StdErr,
+		SetDefault: true,
+		Type:       DefaultLogger,
+	}
+)
