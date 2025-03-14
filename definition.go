@@ -7,12 +7,7 @@ import (
 )
 
 type logStruct struct {
-	cfg *Config
 	log *slog.Logger
-}
-
-func (l *logStruct) Config() *Config {
-	return l.cfg
 }
 
 func (l *logStruct) Handler() Handler {
