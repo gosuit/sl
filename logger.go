@@ -119,7 +119,7 @@ func New(cfg *Config) Logger {
 func setupHandler(cfg *Config) Handler {
 	level := setLoggerLevel(cfg.Level)
 
-	opts := setHandlerOptions(level, cfg.AddSource)
+	opts := setHandlerOptions(level)
 
 	out := setOut(cfg)
 
@@ -169,8 +169,8 @@ func setLoggerLevel(lvl string) Level {
 	return level
 }
 
-func setHandlerOptions(level Level, AddSource bool) *HandlerOptions {
-	return &HandlerOptions{AddSource: AddSource, Level: level}
+func setHandlerOptions(level Level) *HandlerOptions {
+	return &HandlerOptions{Level: level}
 }
 
 func setOut(cfg *Config) *os.File {
