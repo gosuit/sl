@@ -70,6 +70,8 @@ func (p *Pretty) Handle(_ context.Context, r slog.Record) error {
 		color.WhiteString(string(b)),
 	)
 
+	p.log.Println()
+
 	return nil
 }
 

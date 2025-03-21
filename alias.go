@@ -94,8 +94,8 @@ func Default() Logger {
 	mu.Unlock()
 
 	return &logStruct{
-		log: slog.Default(),
-		cfg: &cfg,
+		Logger: slog.Default(),
+		cfg:    &cfg,
 	}
 }
 

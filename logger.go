@@ -98,6 +98,11 @@ type Config struct {
 	// - "discard": to ignore all log messages.
 	// - "default": for standard logging behavior.
 	Type string `yaml:"type" env:"LOGGER_TYPE" env-default:"default"`
+
+	// ReplaceAttr is called to rewrite each non-group attribute before it is logged.
+	// The attribute's value has been resolved (see [Value.Resolve]).
+	// If ReplaceAttr returns a zero Attr, the attribute is discarded.
+	ReplaceAttr func(groups []string, a Attr) Attr
 }
 
 // New returns the Logger with the specified configuration.
@@ -105,8 +110,8 @@ func New(cfg *Config) Logger {
 	handler := setupHandler(cfg)
 
 	logger := &logStruct{
-		log: slog.New(handler),
-		cfg: cfg,
+		Logger: slog.New(handler),
+		cfg:    cfg,
 	}
 
 	if cfg.SetDefault {
@@ -119,7 +124,7 @@ func New(cfg *Config) Logger {
 func setupHandler(cfg *Config) Handler {
 	level := setLoggerLevel(cfg.Level)
 
-	opts := setHandlerOptions(level, cfg.AddSource)
+	opts := setHandlerOptions(level, cfg)
 
 	out := setOut(cfg)
 
@@ -169,8 +174,12 @@ func setLoggerLevel(lvl string) Level {
 	return level
 }
 
-func setHandlerOptions(level Level, AddSource bool) *HandlerOptions {
-	return &HandlerOptions{AddSource: AddSource, Level: level}
+func setHandlerOptions(level Level, cfg *Config) *HandlerOptions {
+	return &HandlerOptions{
+		AddSource:   cfg.AddSource,
+		Level:       level,
+		ReplaceAttr: cfg.ReplaceAttr,
+	}
 }
 
 func setOut(cfg *Config) *os.File {
