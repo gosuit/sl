@@ -71,33 +71,33 @@ type Logger interface {
 type Config struct {
 	// Level specifies the logging level (e.g., info, debug, error).
 	// It can be set via YAML configuration or environment variable.
-	Level string `yaml:"level" env:"LOGGER_LEVEL" env-default:"info"`
+	Level string `confy:"level" yaml:"level" json:"level" toml:"level" env:"LOGGER_LEVEL" env-default:"info" validate:"oneof=info debug error warn"`
 
 	// AddSource indicates whether to include the source of the log message (e.g., file and line number).
 	// This can be controlled through YAML or an environment variable.
-	AddSource bool `yaml:"add_source" env:"LOGGER_ADD_SOURCE" env-default:"true"`
+	AddSource bool `confy:"add_source" yaml:"add_source" json:"add_source" toml:"add_source" env:"LOGGER_ADD_SOURCE" env-default:"true"`
 
 	// IsJSON determines if the log output should be in JSON format.
 	// If true, logs will be structured as JSON; otherwise, they will be plain text.
-	IsJSON bool `yaml:"is_json" env:"LOGGER_IS_JSON" env-default:"true"`
+	IsJSON bool `confy:"is_json" yaml:"is_json" json:"is_json" toml:"is_json" env:"LOGGER_IS_JSON" env-default:"true"`
 
 	// Writer specifies where the logs should be written.
-	// It can be a "file" or a "stdout".
-	Writer string `yaml:"writer" env:"LOGGER_WRITER" env-default:"stderr"`
+	// It can be a "file" or a "stderr".
+	Writer string `confy:"writer" yaml:"writer" json:"writer" toml:"writer" env:"LOGGER_WRITER" env-default:"stderr" validate:"oneof=stderr file"`
 
 	// OutPath is the path to the output file if logging to a file.
-	OutPath string `yaml:"out_path" env:"LOGGER_OUT_PATH" env-default:""`
+	OutPath string `confy:"out_path" yaml:"out_path" json:"out_path" toml:"out_path" env:"LOGGER_OUT_PATH" env-default:""`
 
 	// SetDefault indicates whether to set default logger options.
 	// This can be used to ensure that certain configurations are applied automatically.
-	SetDefault bool `yaml:"set_default" env:"LOGGER_SET_DEFAULT" env-default:"true"`
+	SetDefault bool `confy:"set_default" yaml:"set_default" json:"set_default" toml:"set_default" env:"LOGGER_SET_DEFAULT" env-default:"true"`
 
 	// Type defines the type of logger to use.
 	// It can be one of the following:
 	// - "dev" or "pretty": for human-readable logs with color and formatting.
 	// - "discard": to ignore all log messages.
 	// - "default": for standard logging behavior.
-	Type string `yaml:"type" env:"LOGGER_TYPE" env-default:"default"`
+	Type string `confy:"type" yaml:"type" json:"type" toml:"type" env:"LOGGER_TYPE" env-default:"default" validate:"oneof=dev pretty discard default"`
 
 	// ReplaceAttr is called to rewrite each non-group attribute before it is logged.
 	// The attribute's value has been resolved (see [Value.Resolve]).
