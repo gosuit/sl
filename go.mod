@@ -1,10 +1,11 @@
 module github.com/gosuit/sl
 
-go 1.24.0
+go 1.24.3
 
 require (
 	github.com/fatih/color v1.18.0
 	github.com/golang-cz/devslog v0.0.11
+	github.com/gosuit/boot v1.0.1
 	github.com/stretchr/testify v1.10.0
 )
 

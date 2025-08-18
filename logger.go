@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"os"
 
+	"github.com/gosuit/boot"
 	"github.com/gosuit/sl/handlers"
 )
 
@@ -119,6 +120,10 @@ func New(cfg *Config) Logger {
 	}
 
 	return logger
+}
+
+func Boot[T any]() any {
+	return boot.Boot[T, Config](New)
 }
 
 func setupHandler(cfg *Config) Handler {
