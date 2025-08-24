@@ -72,7 +72,7 @@ type Logger interface {
 type Config struct {
 	// Level specifies the logging level (e.g., info, debug, error).
 	// It can be set via YAML configuration or environment variable.
-	Level string `confy:"level" yaml:"level" json:"level" toml:"level" env:"LOGGER_LEVEL" env-default:"info" validate:"oneof=info debug error warn"`
+	Level string `confy:"level" yaml:"level" json:"level" toml:"level" env:"LOGGER_LEVEL" env-default:"info"`
 
 	// AddSource indicates whether to include the source of the log message (e.g., file and line number).
 	// This can be controlled through YAML or an environment variable.
@@ -84,7 +84,7 @@ type Config struct {
 
 	// Writer specifies where the logs should be written.
 	// It can be a "file" or a "stderr".
-	Writer string `confy:"writer" yaml:"writer" json:"writer" toml:"writer" env:"LOGGER_WRITER" env-default:"stderr" validate:"oneof=stderr file"`
+	Writer string `confy:"writer" yaml:"writer" json:"writer" toml:"writer" env:"LOGGER_WRITER" env-default:"stderr"`
 
 	// OutPath is the path to the output file if logging to a file.
 	OutPath string `confy:"out_path" yaml:"out_path" json:"out_path" toml:"out_path" env:"LOGGER_OUT_PATH" env-default:""`
@@ -98,7 +98,7 @@ type Config struct {
 	// - "dev" or "pretty": for human-readable logs with color and formatting.
 	// - "discard": to ignore all log messages.
 	// - "default": for standard logging behavior.
-	Type string `confy:"type" yaml:"type" json:"type" toml:"type" env:"LOGGER_TYPE" env-default:"default" validate:"oneof=dev pretty discard default"`
+	Type string `confy:"type" yaml:"type" json:"type" toml:"type" env:"LOGGER_TYPE" env-default:"default"`
 
 	// ReplaceAttr is called to rewrite each non-group attribute before it is logged.
 	// The attribute's value has been resolved (see [Value.Resolve]).
