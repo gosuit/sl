@@ -1,6 +1,10 @@
-# SL
+# Sl
 
-SL Logger is a lightweight logging library built on top of Go's log/slog package. It provides a flexible and configurable logging interface that allows developers to easily integrate logging into their applications. With support for different log levels, output formats, and handlers, SL Logger is designed to fit a variety of use cases.
+Sl is a GoLang library based on log/slog. 
+
+It provides a flexible and configurable logging interface that allows developers to easily integrate logging into their applications.
+
+With support for different log levels, output formats, and handlers, Sl Logger is designed to fit a variety of use cases.
 
 ## Installation
 
@@ -10,56 +14,71 @@ go get github.com/gosuit/sl
 
 ## Features
 
-• Configurable Logging Levels: Set the logging level to control the verbosity of the logs (e.g., debug, info, warn, error).
-
-• Multiple Output Options: Log to standard output, files, or discard logs entirely.
-
-• Structured Logging: Supports structured logging with attributes for better log analysis.
-
-• Contextual Logging: The logger can be placed and removed from the context to transfer the logger to different parts of the application.
-
-• Custom Handlers: Easily switch between different logging handlers (e.g., dev, pretty, discard, default).
+- **Configurable Logger**: flexible configuration of the logger, including: level, output, handler type, etc.
+- **Structured Logging**: Supports structured logging with attributes for better log analysis.
+- **Contextual Logging**: The logger can be placed and removed from the context to transfer the logger to different parts of the application.
 
 ## Usage
 
-### Configuration
-
-You can configure the logger using the Config struct. Here’s an example configuration:
+### Logging
 
 ```golang
-cfg := &sl.Config{
-    Level:     "info",
-    AddSource: true,
-    Writer:    "stderr",
-    Type:      "default",
+package main
+
+import "github.com/gosuit/sl"
+
+func main() {
+	// Create logger
+	cfg := &sl.Config{
+		Level:     "info",
+		AddSource: true,
+		Writer:    "stderr",
+		Type:      "default",
+	}
+
+	logger := sl.New(cfg)
+
+	// Use logger
+	logger.Debug("Debug message", "key", "value")
+	logger.Info("Info message", "key", "value")
+	logger.Warn("Warning message", "key", "value")
+	logger.Error("Error message", "key", "value")
+	logger.Fatal("Fatal message", "key", "value")
 }
-```
 
-### Creating a Logger
-
-```golang
-logger := sl.New(cfg)
-```
-
-### Logging Messages
-
-```golang
-logger.Debug("Debug message", "key", "value")
-logger.Info("Info message", "key", "value")
-logger.Warn("Warning message", "key", "value")
-logger.Error("Error message", "key", "value")
-logger.Fatal("Fatal message", "key", "value")
 ```
 
 ### Context
 
 ```golang
-ctx := context.Background()
-ctx = sl.ContextWithLogger(logger)
+package main
 
-l := sl.L(ctx)
+import (
+	"context"
 
-l.Info("Info message", "key", "value")
+	"github.com/gosuit/sl"
+)
+
+func main() {
+	// Create logger
+	cfg := &sl.Config{
+		Level:     "info",
+		AddSource: true,
+		Writer:    "stderr",
+		Type:      "default",
+	}
+
+	logger := sl.New(cfg)
+
+	// Bring the logger with the context
+	ctx := context.Background()
+	ctx = sl.ContextWithLogger(ctx, logger)
+
+	l := sl.L(ctx)
+
+	l.Info("Info message", "key", "value")
+}
+
 ```
 
 ## Contributing
